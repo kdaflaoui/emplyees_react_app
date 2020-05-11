@@ -1,11 +1,50 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {Table} from 'react-bootstrap';
 
-export class Department extends Component {
+class Department extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             depart : []
+        }
+    }
+
+    componentDidMount(){
+        this.refreshList();
+    }
+    refreshList(){
+        fetch("https://localhost:44330/api/Deparatments")
+        .then(response => response.json())
+        .then(data=>{
+            this.setState({
+                depart : data
+            })
+        })
+    }
+    
     render() {
+
+        const {depart} = this.state;
         return (
-            <div className="mt-5 d-flex justify-content-left">
-                <h3>This is Department Page. </h3>
-            </div>
+            <Table className="mt-4" striped bordered hover size='sm'>
+                <thead>
+                    <tr>
+                        <td>DepartmentID</td>
+                        <td>DepartmentName</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {depart.map(dept =>{
+                        return(
+                            <tr key={dept.DepartmentID}>
+                                <td>{dept.DepartmentID}</td>
+                                <td>{dept.DepartmentName}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
         )
     }
 }
