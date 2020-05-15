@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Table, Button, ButtonToolbar} from 'react-bootstrap';
-import AddDepartmentModal from './AddDepartmentModal';
-import EditDepartmentModel from './EditDepartmentModel';
+import AddEmployeesModal from './AddEmployeesModal';
+import EditEmployeeModal from './EditEmployeeModal';
 
 class Employee extends Component {
     constructor(props) {
@@ -28,9 +28,12 @@ class Employee extends Component {
                 })
             })
         }
-            //forcer le update qu'on inset des données
-    componentDidUpdate = () =>{
-            // this.refreshList();
+       //forcer le update qu'on inset des données
+       componentDidUpdate = (prevProps, prevState) => {
+        if (this.state.emplyees === prevState.emplyees) {
+             this.refreshList();
+         }
+         console.log("componentDidUpdate is launched");
      }
 
      deleteEmployee = (empid) => {
@@ -58,7 +61,7 @@ class Employee extends Component {
         this.setState({editModal : false});
     }
     render() {
-        const {emplyees, empid, empname} = this.state;
+        const {emplyees, empid, empname, department, email, doj} = this.state;
         return (
             <>
             <Table className="mt-4" striped bordered hover size='sm'>
@@ -90,6 +93,7 @@ class Employee extends Component {
                                                 {editModal : true, 
                                                 empid :emp.EmployeeID, 
                                                 empname: emp.EmployeeName,
+                                                department:emp.Department,
                                                 email : emp.MailID,
                                                 doj : emp.DayOfJorning
                                                 })}>
@@ -103,11 +107,15 @@ class Employee extends Component {
                                             Delete
                                         </Button>
                                         
-                                        <EditDepartmentModel 
+                                        <EditEmployeeModal 
                                             show={this.state.editModal}
                                             onHide={this.closeEditModal}
                                             empid={empid}
                                             empname={empname}
+                                            department={department}
+                                            email={email}
+                                            doj={doj}
+
                                         />
                                     </ButtonToolbar>
                                 </td>
@@ -117,8 +125,8 @@ class Employee extends Component {
                 </tbody>
             </Table>
             <ButtonToolbar>
-                <Button variant='primary' onClick={this.addDeptment}> Add Deparatment</Button>
-                <AddDepartmentModal 
+                <Button variant='primary' onClick={this.addEmp}> Add Employee</Button>
+                <AddEmployeesModal 
                     show={this.state.saveModal}
                     onHide={this.closeSaveModal}
                  />

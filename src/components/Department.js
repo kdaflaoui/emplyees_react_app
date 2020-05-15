@@ -72,7 +72,7 @@ class Department extends Component {
                 <thead>
                     <tr>
                         <th>DepartmentID</th>
-                        <th>DepartmentName</th>
+                        <th>Department Name</th>
                         <th>Options</th>
                     </tr>
                 </thead>
